@@ -1,8 +1,14 @@
 <?php
 
-$username = "Henrik";
-
+session_start();
+$username = $_SESSION["username"] ;
 $basket = $_SESSION["basket"];
+
+$totalPrice =0;
+$arraylength = count($basket);
+for($x = 0; $x < $arraylength; $x++) {
+        $totalPrice = $totalPrice + $basket[$x][2]*$basket[$x][3];
+}
 
 ?>
 
@@ -23,18 +29,26 @@ Logged in as user: <?php print $username ?>
 	<tr>
 	<td>Object</td>
 	<td>Quantity</td>
-	<td></td>  
+	<td>Price</td>
+	<td></td> 
+	</tr> 
     <?php
     $arraylength = count($basket);
-    for($x = 0; $x < $arraylength; $x++) {
+    for($x = 0; $x < $arraylength; $x++) { ?>
       <tr> 
         <td><?php print $basket[$x][1]; ?></td>  
         <td><?php print $basket[$x][2]; ?></td>
+	<td><?php print "€{$basket[$x][3]}"; ?></td>
 	<td><form action="removeFromBasket.php">
 		<input type="hidden" name="productId" value="<?php print $basket[$x][0]; ?>" />
 		<input type=submit value="Remove from basket"/></form></td>
       </tr>
     <?php } ?>
+      <tr></tr>
+      <tr>
+	<td>TOTAL PRICE</td>
+	<td><?php print "€{$totalPrice}"; ?></td>
+      </tr>
   </table>
 <p>  
 

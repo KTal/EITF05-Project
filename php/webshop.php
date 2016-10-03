@@ -60,6 +60,7 @@ if ($products->num_rows > 0) {
                 <form action="addToBasket.php">
 		<input type="hidden" name="productId" value="<?php print $row["id"]; ?>" />
 		<input type="hidden" name="productName" value="<?php print $row["name"]; ?>" />
+		<input type="hidden" name="productPrice" value="<?php print $row["price"]; ?>" />
                 <select name="quantity">
                 <option value=1>1</option>
                 <option value=2>2</option>
