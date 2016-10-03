@@ -58,7 +58,7 @@ Logged in as user: <?php print $username ?>
 
 
 <p>
-<form method=get action="placeOrder.html">
+<form method=get action="placeOrder.php">
     <input type=submit value="Place Order" >
   </form>
 
