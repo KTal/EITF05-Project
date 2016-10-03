@@ -28,7 +28,19 @@ for($x = 0; $x < $arraylength; $x++) {
 $sql = "INSERT INTO orders(username, details) VALUES('$username', '$details')";
 $order = $conn->query($sql);
 
+$sql = "SELECT address FROM users WHERE name = '$username'";
+$address = $conn->query($sql);
+
 $conn->close();
+
+//Very ugly but it works. 
+if ($address->num_rows > 0) {
+    while($row = $address->fetch_assoc()) {
+	$ad= $row["address"];
+    }
+} 
+
+
 
 
 $totalPrice =0;
@@ -55,7 +67,8 @@ if($order != 1) {
         <!-- check type  of user-->
 
         <p class="breadtext">
-                Username: <?php print $username ?>
+                Username: <?php print $username; ?>
+	<p> Address: <?php print $ad; ?>
         </p>
 	
 
