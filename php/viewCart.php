@@ -2,8 +2,7 @@
 
 $username = "Henrik";
 
-$basket['toyCar']=3;
-$basket['toyRocket']=1;
+$basket = $_SESSION["basket"];
 
 ?>
 
@@ -26,11 +25,14 @@ Logged in as user: <?php print $username ?>
 	<td>Quantity</td>
 	<td></td>  
     <?php
-    foreach($basket as $product => $quantity){ ?>
+    $arraylength = count($basket);
+    for($x = 0; $x < $arraylength; $x++) {
       <tr> 
-        <td><?php print $product; ?></td>  
-        <td><?php print $quantity; ?></td>
-	<td><form method=get action="updatebasket2.php"><input type=submit value="Remove from basket"/></form></td>
+        <td><?php print $basket[$x][1]; ?></td>  
+        <td><?php print $basket[$x][2]; ?></td>
+	<td><form action="removeFromBasket.php">
+		<input type="hidden" name="productId" value="<?php print $basket[$x][0]; ?>" />
+		<input type=submit value="Remove from basket"/></form></td>
       </tr>
     <?php } ?>
   </table>
