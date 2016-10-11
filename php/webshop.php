@@ -72,7 +72,7 @@ if ($products->num_rows > 0) {
                 </form>
         </td>
       </tr>
-    
+
 <?php
     }
     ?>
@@ -86,7 +86,7 @@ if ($products->num_rows > 0) {
 ?>
 
 
-<p> 
+<p>
 
 <form method=get action="viewCart.php">
     <input type=submit value="View Shopping cart" >
@@ -94,7 +94,8 @@ if ($products->num_rows > 0) {
 
 
 <p>
-<form method=get action="index.html">
+<form method=get action="logout.php">
+  <input type="hidden" name="CSFusername" value="<?php print $username; ?>" />
     <input type=submit value="logout" >
   </form>
 

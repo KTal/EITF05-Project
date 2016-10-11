@@ -33,12 +33,12 @@ $address = $conn->query($sql);
 
 $conn->close();
 
-//Very ugly but it works. 
+//Very ugly but it works.
 if ($address->num_rows > 0) {
     while($row = $address->fetch_assoc()) {
 	$ad= $row["address"];
     }
-} 
+}
 
 
 
@@ -70,7 +70,7 @@ if($order != 1) {
                 Username: <?php print $username; ?>
 	<p> Address: <?php print $ad; ?>
         </p>
-	
+
 
 	<p>
 
@@ -89,9 +89,6 @@ if($order != 1) {
         <td><?php print $basket[$x][1]; ?></td>
         <td><?php print $basket[$x][2]; ?></td>
         <td><?php print "€{$basket[$x][3]}"; ?></td>
-        <td><form action="removeFromBasket.php">
-                <input type="hidden" name="productId" value="<?php print $basket[$x][0]; ?>" />
-                <input type=submit value="Remove from basket"/></form></td>
       </tr>
     <?php } ?>
       <tr></tr>
@@ -105,6 +102,7 @@ if($order != 1) {
 
 
         <form method=get action="logout.php">
+          <input type="hidden" name="CSFusername" value="<?php print $username; ?>" />
                 <input type=submit value="Logout" >
         </form>
 
@@ -119,4 +117,3 @@ if($order != 1) {
 
 
 ?>
-

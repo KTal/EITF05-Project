@@ -1,4 +1,5 @@
 <?php
+
 $sn = "localhost";
 $un = "root";
 $pw = "root";
@@ -16,10 +17,51 @@ if (!$conn) {
 $username = $_REQUEST['username'];
 $password = $_REQUEST['password'];
 
-$sql = "SELECT name FROM users WHERE name ='$username' AND password ='$password'";
+//----------------bad version for sql injection---------------
+/*
+if (strpos($username, ';') or strpos($username, '=') or strpos($password, ';') or strpos($password, '=')) {
+  $username = "";
+  $password = "";
+}
+
+$sql = "SELECT name FROM users WHERE name = '$username' AND (password ='$password')";
 $result = $conn->query($sql);
 
-if ($result->num_rows == 0) {
+$conn->close();
+
+$username = null;
+
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+	$username= $row["name"];
+    }
+}
+
+if($username==null) {
+
+*/
+
+//---------------------------------------------------------
+
+
+$sql = "SELECT password FROM users WHERE name ='$username'";
+$result = $conn->query($sql);
+
+$conn->close();
+
+//Very ugly but it works.
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+	$hash= $row["password"];
+    }
+}
+
+
+if (!password_verify($password, $hash)) {
+
+//-------------------------
+  sleep(1);
+
 	?>
 
 	<html>
@@ -45,11 +87,11 @@ if ($result->num_rows == 0) {
 
 	<?php
 } else {
-
+  sleep(1);
 	session_start();
 	$_SESSION["username"] = $username;
 	$_SESSION["basket"] = array();
-	$_SESSION["previousProductName"]=null;	
+	$_SESSION["previousProductName"]=null;
 
 	header("Location: webshop.php");
 }
