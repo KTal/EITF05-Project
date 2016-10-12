@@ -70,8 +70,6 @@ if($order != 1) {
         <body>
 
         <h1 align="left">Order confirmation</h1>
-        <!-- check if user..-->
-        <!-- check type  of user-->
 
         <p class="breadtext">
                 Username: <?php print $username; ?>
