@@ -12,10 +12,10 @@ $conn = new mysqli($sn, $un, $pw, $dbname);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
-
-$username = $_REQUEST['username'];
+// Protect against XSS by using htmlentities
+$username = htmlentities($_REQUEST['username'], ENT_QUOTES, "UTF-8");
+$address = htmlentities($_REQUEST['address'], ENT_QUOTES, "UTF-8");
 $password = $_REQUEST['password'];
-$address = $_REQUEST['address'];
 
 $hash = password_hash($password, PASSWORD_DEFAULT);
 
