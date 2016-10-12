@@ -1,5 +1,4 @@
 <?php
-$created = true;
 
 $sn = "localhost";
 $un = "root";
@@ -14,16 +13,18 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-
 $username = $_REQUEST['username'];
 $password = $_REQUEST['password'];
 $address = $_REQUEST['address'];
 
 $hash = password_hash($password, PASSWORD_DEFAULT);
 
-$sql = "INSERT INTO users(name, address, password) VALUES('$username', '$address', '$hash')";
-$result = $conn->query($sql);
-
+//Protect against SQL-injection by using prepared statment
+if ($stmt = $conn->prepare("INSERT INTO users(name, address, password) VALUES(?, ?, ?)")) {
+    $stmt->bind_param("sss", $username, $address, $hash);
+    $result = $stmt->execute();
+    $stmt->close();
+}
 ?>
 
 <html>
@@ -66,8 +67,6 @@ $result = $conn->query($sql);
 
 }
  ?>
-
-
 
 
 </body>

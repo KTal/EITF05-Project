@@ -1,12 +1,52 @@
 <?php
-/**
- * We just want to hash our password using the current DEFAULT algorithm.
- * This is presently BCRYPT, and will produce a 60 character result.
- *
- * Beware that DEFAULT may change over time, so you would want to prepare
- * By allowing your storage to expand past 60 characters (255 would be good)
- */
-$hash = password_hash("qwe", PASSWORD_DEFAULT);
-echo password_verify("qwe", "$2y$10$5R/ueLV8TVfTsr4hUKtRjOsz7NK1rLtadXkmN3yCqLyYB0Jc/DdZq");
-print microtime(true);
+$sn = "localhost";
+$un = "root";
+$pw = "root";
+$dbname = "db";
+
+// Create connection
+$conn = new mysqli($sn, $un, $pw, $dbname);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+
+$username = "Toto";
+$address = "=;()";
+$password = "=;()";
+
+/*
+if ($stmt = $conn->prepare("INSERT INTO users(name, address, password) VALUES(?, ?, ?)")) {
+    $stmt->bind_param("sss", $username, $address, $password);
+    $success = $stmt->execute();
+    $stmt->close();
+}
+
+if($success) {
+  print "Success";
+} else {
+  print "Bad";
+}
+*/
+
+
+/* create a prepared statement*/
+if ($stmt = $conn->prepare("SELECT password FROM users WHERE Name=?")) {
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->bind_result($result);
+    $stmt->fetch();
+    printf($result);
+    $stmt->close();
+}
+
+
+/* close connection */
+$conn->close();
+
+
+
+
 ?>

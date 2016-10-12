@@ -17,49 +17,21 @@ if (!$conn) {
 $username = $_REQUEST['username'];
 $password = $_REQUEST['password'];
 
-//----------------bad version for sql injection---------------
-/*
-if (strpos($username, ';') or strpos($username, '=') or strpos($password, ';') or strpos($password, '=')) {
-  $username = "";
-  $password = "";
+/* Protect against SQL-injection by using prepared statement*/
+if ($stmt = $conn->prepare("SELECT password FROM users WHERE Name=?")) {
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->bind_result($hash);
+    $stmt->fetch();
+    $stmt->close();
 }
 
-$sql = "SELECT name FROM users WHERE name = '$username' AND (password ='$password')";
-$result = $conn->query($sql);
 
 $conn->close();
-
-$username = null;
-
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-	$username= $row["name"];
-    }
-}
-
-if($username==null) {
-
-*/
-
-//---------------------------------------------------------
-
-
-$sql = "SELECT password FROM users WHERE name ='$username'";
-$result = $conn->query($sql);
-
-$conn->close();
-
-//Very ugly but it works.
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-	$hash= $row["password"];
-    }
-}
 
 
 if (!password_verify($password, $hash)) {
-
-//-------------------------
+  //Sleep to protect against brute force attacks
   sleep(1);
 
 	?>
@@ -71,8 +43,6 @@ if (!password_verify($password, $hash)) {
 	<body>
 
 	<h1 align="left">Login Failed</h1>
-	<!-- check if user..-->
-	<!-- check type  of user-->
 
 	<p class="breadtext">
                 Please check that the username and password matches a registered account.
@@ -95,7 +65,5 @@ if (!password_verify($password, $hash)) {
 
 	header("Location: webshop.php");
 }
-
-$conn->close();
 
 ?>

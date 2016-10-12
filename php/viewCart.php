@@ -30,13 +30,13 @@ Logged in as user: <?php print $username ?>
 	<td>Object</td>
 	<td>Quantity</td>
 	<td>Price</td>
-	<td></td> 
-	</tr> 
+	<td></td>
+	</tr>
     <?php
     $arraylength = count($basket);
     for($x = 0; $x < $arraylength; $x++) { ?>
-      <tr> 
-        <td><?php print $basket[$x][1]; ?></td>  
+      <tr>
+        <td><?php print $basket[$x][1]; ?></td>
         <td><?php print $basket[$x][2]; ?></td>
 	<td><?php print "€{$basket[$x][3]}"; ?></td>
 	<td><form action="removeFromBasket.php">
@@ -50,7 +50,7 @@ Logged in as user: <?php print $username ?>
 	<td><?php print "€{$totalPrice}"; ?></td>
       </tr>
   </table>
-<p>  
+<p>
 
 <form method=get action="webshop.php">
     <input type=submit value="Back to shop" >
@@ -59,6 +59,7 @@ Logged in as user: <?php print $username ?>
 
 <p>
 <form method=get action="placeOrder.php">
+  <input type="hidden" name="CSFusername" value="<?php print $username; ?>" />
     <input type=submit value="Place Order" >
   </form>
 

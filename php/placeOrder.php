@@ -9,6 +9,13 @@ $username = $_SESSION["username"];
 $basket = $_SESSION["basket"];
 $previousProductName = $_SESSION["previousProductName"];
 
+//Check for CSRF
+if(!$_REQUEST['CSFusername'] == $_SESSION["username"]) {
+  print "Are you trying to do some CSRF?";
+  exit();
+}
+
+
 // Create connection
 $conn = new mysqli($sn, $un, $pw, $dbname);
 
